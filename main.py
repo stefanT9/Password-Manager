@@ -46,7 +46,20 @@ def add_command(master_password, website, email, password):
     return
     
 def remove_command(master_password, website):
-    return
+    f = open('passwords.txt')
+    lines = f.readlines()
+    lines = [eval(line) for line in lines]
+    aux=[]
+    for line in lines:
+        if not line[0]==website:
+            aux+=[line]
+    f.close()
+    f = open('passwords.txt','w')
+    for line in aux:
+        f.write(str(line))
+        f.write('\n')
+    f.close()
+
 if   operation=='-init':
     init_command(master_password)
 
