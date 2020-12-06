@@ -25,7 +25,13 @@ def init_command(master_password):
     return
 
 def list_command(master_password):
-    return []
+    f = open('passwords.txt')
+    lines = f.readlines()
+    lines = [line.split(':') for line in lines]
+    lines = [(line[0], decrypt(line[1],master_password)) for line in lines]
+    lines = lines[:-2]
+    for line in lines:
+        print(line)
 
 def get_command(master_password, website):
     return ''
