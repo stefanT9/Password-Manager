@@ -1,23 +1,23 @@
 import sys
-from cryptography.fernet import Fernet
-
 args = sys.argv
 
 master_password = args[1]
 operation =  args[2]
 
-
-def authenticate(password):
-    return True
-
 def encrypt(text, key):
-    f = Fernet(key)
-    return f.encrypt(text)
+    return text
+    key = bytes(key.encode('utf-8'))
+    
+    aes = AES.new(key,AES.mode_ecb)
+    return aes.encrypt(text)
     
 def decrypt(text, key):
-    f = Fernet(key)
-    return f.decrypt(text)
-
+    return text
+    key = bytes(key.encode('utf-8'))
+    
+    aes = AES.new(key,AES.mode_ecb)
+    return aes.decrypt(text)
+    
 def init_command(master_password):
     f = open('passwords.txt','a+')
     print(f)
@@ -27,18 +27,24 @@ def init_command(master_password):
 def list_command(master_password):
     f = open('passwords.txt')
     lines = f.readlines()
-    lines = [line.split(':') for line in lines]
-    lines = [(line[0], decrypt(line[1],master_password)) for line in lines]
-    lines = lines[:-2]
+    lines = [eval(line) for line in lines]
+    lines = [(line[0],line[1], decrypt(line[2],master_password)) for line in lines]
     for line in lines:
         print(line)
 
 def get_command(master_password, website):
-    return ''
+    f = open('passwords.txt')
+    lines = f.readlines()
+    lines = [eval(line) for line in lines]
+    lines = [(line[0],line[1], decrypt(line[2],master_password)) for line in lines]
+    lines = lines[:-2]
+    for line in lines:
+        if(line[0]==website):
+            print(line)
 
 def add_command(master_password, website, email, password):
     return
-
+    
 def remove_command(master_password, website):
     return
 if   operation=='-init':
