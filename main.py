@@ -43,8 +43,13 @@ def get_command(master_password, website):
             print(line)
 
 def add_command(master_password, website, email, password):
-    return
+    f = open('passwords.txt', 'a+')
+    line = (website,email,encrypt(password,master_password))
+    f.write(str(line))
+    f.write('\n')
     
+    
+
 def remove_command(master_password, website):
     f = open('passwords.txt')
     lines = f.readlines()
