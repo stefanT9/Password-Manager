@@ -20,10 +20,12 @@ def remove_hash():
     f = open('passwords.txt','w')
     lines = lines[:-1]
     f.writelines(lines)
+
 def add_hash(master_password):
     f = open('passwords.txt','a')
     f.write(str(adler32(bytes(master_password))))
     f.close()
+
 def encrypt(text, key):
     text = [ord(x) for x in text]
     key = [ord(x) for x in key]
@@ -77,8 +79,6 @@ def add_command(master_password, website, email, password):
     f.write(str(line))
     f.write('\n')
     
-    
-
 def remove_command(master_password, website):
     f = open('passwords.txt')
     lines = f.readlines()
